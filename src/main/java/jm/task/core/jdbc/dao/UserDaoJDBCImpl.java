@@ -18,12 +18,8 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
        try(Statement statement = Util.getNewConnection().createStatement()) {
-           statement.execute("CREATE TABLE USERS " +
-                   "(id INTEGER not NULL  AUTO_INCREMENT, " +
-                   " Name VARCHAR(255), " +
-                   " lastName VARCHAR(255), " +
-                   " age INTEGER, " +
-                   "PRIMARY KEY (id))");
+           String sqlCommand = "CREATE TABLE USERS(Id INT PRIMARY KEY AUTO_INCREMENT,Name VARCHAR(255),lastName VARCHAR(255) ,age INTEGER)";
+           statement.execute(sqlCommand);
            System.out.println("creat table in database");
        } catch (SQLException ex) {
            System.out.println("dont creat table");;
@@ -45,8 +41,14 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        try(Statement statement = Util.getNewConnection().createStatement()){
-            statement.executeUpdate("INSERT INTO USERS(name,lastname,age) VALUES('"+name+"','"+lastName+"','"+ age+"')");
+        String sql = "INSERT INTO USERS(name,lastname,age) VALUES(?,?,?)";
+        try(PreparedStatement preparedStatement = Util.getNewConnection().prepareStatement(sql)){
+            preparedStatement.setString(1,name);
+            preparedStatement.setString(2,lastName);
+            preparedStatement.setByte(3,age);
+            int input = preparedStatement.executeUpdate();
+            System.out.printf("%d input added", input);
+
         } catch (SQLException ex) {
             System.out.println("dont insert in table");
         } catch (ClassNotFoundException sd){
