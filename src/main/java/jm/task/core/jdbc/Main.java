@@ -9,10 +9,18 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         UserService userService = new UserServiceImpl();
-        userService.dropUsersTable();
-        userService.createUsersTable();
-        userService.saveUser("Maksim","Sidorov", (byte) 25);
+//        userService.dropUsersTable();
+//        userService.createUsersTable();
+//        userService.saveUser("Maksim","Sidorov", (byte) 25);
+//
+//        List<User> list = userService.getAllUsers();
+//        for (User user:list) {
+//            System.out.println(user.toString());
+//        }
 
+        userService.createUsersTable();
+        userService.dropUsersTable();
+        userService.saveUser("Petr","Ivanov",(byte) 27);
         List<User> list = userService.getAllUsers();
         for (User user:list) {
             System.out.println(user.toString());
